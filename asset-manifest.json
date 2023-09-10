@@ -1,13 +1,15 @@
 {
   "files": {
-    "main.css": "/goit-react-lesson-3-todolist-repeta/static/css/main.fdd5162b.css",
-    "main.js": "/goit-react-lesson-3-todolist-repeta/static/js/main.b72e092f.js",
+    "main.css": "/goit-react-lesson-3-todolist-repeta/static/css/main.94ededa4.css",
+    "main.js": "/goit-react-lesson-3-todolist-repeta/static/js/main.a1512658.js",
     "index.html": "/goit-react-lesson-3-todolist-repeta/index.html",
-    "main.fdd5162b.css.map": "/goit-react-lesson-3-todolist-repeta/static/css/main.fdd5162b.css.map",
-    "main.b72e092f.js.map": "/goit-react-lesson-3-todolist-repeta/static/js/main.b72e092f.js.map"
+    "static/media/delete.svg": "/goit-react-lesson-3-todolist-repeta/static/media/delete.5575697b2be19e4c4b67136f6fa197b3.svg",
+    "static/media/add.svg": "/goit-react-lesson-3-todolist-repeta/static/media/add.b32f3a092015d7a228e03084a624cb0b.svg",
+    "main.94ededa4.css.map": "/goit-react-lesson-3-todolist-repeta/static/css/main.94ededa4.css.map",
+    "main.a1512658.js.map": "/goit-react-lesson-3-todolist-repeta/static/js/main.a1512658.js.map"
   },
   "entrypoints": [
-    "static/css/main.fdd5162b.css",
-    "static/js/main.b72e092f.js"
+    "static/css/main.94ededa4.css",
+    "static/js/main.a1512658.js"
   ]
 }
