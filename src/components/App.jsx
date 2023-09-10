@@ -7,7 +7,13 @@ import initialTodos from './ToToList/todos.json';
 import ToDoEditor from './ToDoEditor/ToDoEditor';
 import shortid from 'shortid';
 import Filter from './Filter/Filter';
-// import Form from './Form/Form';
+import Modal from './Modal/Modal';
+import Form from './Form/Form';
+import Clock from './Clock/Clock';
+import Tabs from './Tabs/Tabs';
+import tabs from '../tabs.json';
+import IconButton from './IconButton/IconButton';
+import { ReactComponent as Addicon } from '../Icons/add.svg';
 
 // const colorPickerOptions = [
 //   {label: 'red', color: '#f44336'},
@@ -20,10 +26,33 @@ import Filter from './Filter/Filter';
 
 export class App extends Component {
   state = {
-    todos: initialTodos,
+    todos: [],
     completed: false,
     filter: '',
+    showModal: false,
   };
+
+  componentDidMount() {
+    const todos = localStorage.getItem('todos');
+    const parsedTodos = JSON.parse(todos);
+
+    if (parsedTodos) {
+      this.setState({ todos: parsedTodos });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const nextTodos = this.state.todos;
+    const prevTodos = prevState.todos;
+
+    if (nextTodos !== prevTodos) {
+      localStorage.setItem('todos', JSON.stringify(nextTodos));
+    }
+
+    if (nextTodos.length > prevTodos.length && prevTodos.length !== 0) {
+      this.toggleModal();
+    }
+  }
 
   formSubmitHandler = data => {
     console.log(data);
@@ -37,6 +66,7 @@ export class App extends Component {
     };
 
     this.setState(prevState => ({ todos: [todo, ...prevState.todos] }));
+    // this.toggleModal();
   };
 
   deleteToDo = todoId => {
@@ -52,6 +82,7 @@ export class App extends Component {
       }),
     }));
   };
+
   changeFilter = e => {
     this.setState({ filter: e.currentTarget.value });
   };
@@ -70,14 +101,31 @@ export class App extends Component {
     return todos.reduce((acc, todo) => (todo.completed ? acc + 1 : acc), 0);
   };
 
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({ showModal: !showModal }));
+  };
+
   render() {
-    const { todos, filter } = this.state;
+    const { todos, filter, showModal } = this.state;
 
     return (
       <div className="App">
-        <h1> Стан компонента</h1>
+        {/* <Tabs items={tabs} /> */}
+        {/* <Clock /> */}
+        <IconButton onClick={this.toggleModal} aria-label="Add todo">
+          <Addicon width="40" height="40" fill="white" />{' '}
+        </IconButton>
+        {/* <button type="button" onClick={this.toggleModal}>
+          Show modal
+        </button> */}
+        {showModal && (
+          <Modal onClose={this.toggleModal}>
+            <ToDoEditor textareaSubmitHandler={this.textareaSubmitHandler} />
+          </Modal>
+        )}
+        {/* <h1> Стан компонента</h1> */}
 
-        {/* <Form onSubmit={this.formSubmitHandler} /> */}
+        {/* <Form onSubmit={this.formSubmitHandler} />
 
         {/* <Counter initialValue={5} step={10} /> */}
         {/* <Dropdown /> */}
@@ -86,8 +134,6 @@ export class App extends Component {
           <p>Загальна кількість: {todos.length} </p>
           <p>Кількість виповнених: {this.calculateCompletedTodos()}</p>
         </div>
-
-        <ToDoEditor textareaSubmitHandler={this.textareaSubmitHandler} />
 
         <Filter value={filter} changeFilter={this.changeFilter} />
 
