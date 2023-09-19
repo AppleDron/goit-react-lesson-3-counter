@@ -1,48 +1,33 @@
-import { Component } from 'react';
+import { Component, useEffect, useState } from 'react';
 import { Controls } from './Controls';
 import { Value } from './Value';
 import './Counter.css';
 
-export class Counter extends Component {
-  static defaultProps = {
-    initialValue: 0,
-    step: 1,
+import React from 'react';
+
+const Counter = () => {
+  const [counterA, setCounterA] = useState(0);
+  const [counterB, setCounterB] = useState(0);
+
+  const handleIncrement = () => {
+    setCounterA(prevState => prevState + 1);
   };
 
-  static propTypes = {
-    //
+  const handleDecrement = () => {
+    setCounterB(prevState => prevState - 1);
   };
 
-  state = {
-    value: this.props.initialValue,
-    step: this.props.step,
-  };
+  useEffect(() => {
+    const totalClicks = counterA + counterB;
+    document.title = `All clicks ${totalClicks} times`;
+  }, [counterA, counterB]);
 
-  handleIncrement = () => {
-    this.setState(state => {
-      return {
-        value: state.value + state.step,
-      };
-    });
-  };
+  return (
+    <div className="Counter">
+      <Value value={this.state.value} />
+      <Controls onIncrement={handleIncrement} onDecrement={handleDecrement} />
+    </div>
+  );
+};
 
-  handleDecrement = () => {
-    this.setState(state => {
-      return {
-        value: state.value - state.step,
-      };
-    });
-  };
-
-  render() {
-    return (
-      <div className="Counter">
-        <Value value={this.state.value} />
-        <Controls
-          onIncrement={this.handleIncrement}
-          onDecrement={this.handleDecrement}
-        />
-      </div>
-    );
-  }
-}
+export default Counter;
