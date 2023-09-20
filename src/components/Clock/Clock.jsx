@@ -1,24 +1,30 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useRef, useState } from 'react';
 import './Clock.scss';
 
-export default class Clock extends Component {
-  state = {
-    time: new Date().toLocaleTimeString(),
-  };
+const Clock = () => {
+  const [time, setTime] = useState(() => new Date());
+  const intervalId = useRef(null);
 
-  interValid = null;
-
-  componentDidMount = () => {
-    this.interValid = setInterval(() => {
-      this.setState({ time: new Date().toLocaleTimeString() });
+  useEffect(() => {
+    intervalId.current = setInterval(() => {
+      setTime(new Date());
     }, 1000);
+
+    return () => stop();
+  }, []);
+
+  const stop = () => {
+    clearInterval(intervalId.current);
   };
 
-  componentWillUnmount = () => {
-    clearInterval(this.interValid);
-  };
+  return (
+    <div className="Clock__face">
+      {time}
+      <button type="button" onClick={stop}>
+        Stop
+      </button>
+    </div>
+  );
+};
 
-  render() {
-    return <div className="Clock__face">{this.state.time}</div>;
-  }
-}
+export default Clock;
